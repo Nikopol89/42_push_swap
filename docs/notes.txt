@@ -1,0 +1,63 @@
+dataset 5
+> 12: fail
+
+dataset 100
+< 700: 5
+< 900: 4
+< 1100: 3
+< 1300: 2
+< 1500: 1
+> fail
+
+dataset 500
+< 5500: 5
+< 7000: 4
+< 8500: 3
+< 10000: 2
+< 11500: 1
+> fail
+
+- - -
+
+INDIVIDUAL SUBSEQUENT SORTING for very little dataset
+
+order B, push B, then push A
+rotate or rev-rotate (closest) next data to be pushed on stack B, eventual swap of subsequent 1st & 2nd
+
+if (A is in individual increasing order)
+	PA total
+else
+	if (A.2nd < A.1st && would be the subsequent invidual ordered) && check above
+		SA
+	if (A.1st is minor of A.stk) && check above
+		PA
+	if (minor of A.stk is in 2nd half of A.stack) && check above
+		RRA
+	else && check above
+		RA
+
+considerations:
+this works fine for very very little dataset (i.e. < ~10) - incredibly inefficient for anything bigger
+
+- - -
+
+ROCKERS SORTING for medium/big dataset
+
+use subsequent sub_dataset (blocks) of sorted numbers
+sub_dataset: either fixed n data (i.e. 20) or total/n - may differ for different size dataset, to be tested
+
+rocker = stack; it's conceptual
+
+A.rocker finds closest sub_dataset to push B, B.rocker sorts for A.to.B.insertion
+RA/RRA closest number of sub_dataset, then RB/RRB to order & insert it
+
+estimate number of moves -> check optimal solution
+A.stk and B.stk will both need x.times.RA/RRA|&|RB/RRB -> DOUBLE MOVES RR & RRR to halve number of moves
+
+considerations:
+this will require a ~big.as.dataset number of final moves for final push A == MEH!
+swap A implementable, swap B NOT! - something something double swap may help but seems impossible for this sorting
+
+- - -
+
+python3 pyviz.py `ruby -e "puts (-200..200).to_a.shuffle.join(' ')"`
